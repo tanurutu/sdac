@@ -1,0 +1,51 @@
+start->preference->rspber pi config->select interface tab->i2c enable nd reboot
+create folder oscilloscope home / raspberry pi
+
+install dependicies
+-sudo  apt-get  update
+		     upgrade
+			install build-essential python-dev
+-python-smbus git
+-sudo apt-get install i3c-tools
+
+cd path of oscilloscope
+git clone https://github.com/adafruit/Adafruit_python_AD51x15
+sudo python setup.py install
+
+cd examples
+run simpletest.py->python simpletest.py
+
+install graph plotting and drawing libraries
+sudo apt-get install python-matplotlib
+sudo apt-get install python-pip
+sudo pip install drawnow
+
+sudo nano scope.py
+
+import time 
+import matplotlib.pylot asinit 
+from drawnow import *
+import Adafruit_ADS1x15
+GAIN=1
+VAL=[]
+cnt=0;
+plt.ion()
+ade.start_ad(0,gain=GAIN)
+print("Reading ADS1x15 channel 0")
+def makefig():
+	plt.ylim(-5000,5000)
+	plt.title('oscilloscope')
+	plt.grid(True)
+	plt.ytable('ADC outputs')
+	plt.plot(val,'ro-',label='channel 0')
+	plt.legend(loc="lower right")
+while(True):
+	value=adc.get_last_result()
+	print("channel0:{0}".format(value))
+	time.sleep(0.5)
+ 	val.append(int(value))
+	drawnow(makefig)
+	plt.pause(.000001)
+	cnt=cnt+1
+	if(cnt>50):
+		val.pop(0)
